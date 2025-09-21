@@ -1,0 +1,6 @@
+pid=$(pidof YoudaoDictPen)
+if [ -n "$pid" ]; then
+    gdb attach $pid
+else
+    echo 'Process not found.'
+fi
