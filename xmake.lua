@@ -11,24 +11,49 @@ add_requires('lame          3.100', {
     configs = {shared = true}
 })
 
-set_allowedarchs('linux|arm64-v8a')
+--- options
 
 option('qemu')
     set_default(false)
     set_showmenu(true)
     set_description('Enable build for QEMU.')
+    add_defines('QEMU')
+option_end()
 
 option('build-platform')
     set_default('YDP02X')
     set_showmenu(true)
     set_description('Enable build for specific devices.')
     set_values('YDP02X', 'YDPG3', 'YDP03X')
+option_end()
 
 option('target-channel')
-    set_default('priv')
+    set_default('dev')
     set_showmenu(true)
     set_description('Tweak the compilation results in release.')
-    set_values('priv', 'canary', 'beta', 'stable')
+    set_values('dev', 'canary', 'beta', 'stable')
+option_end()
+
+--- global configs
+
+set_allowedarchs('linux|arm64-v8a')
+set_warnings('all')
+set_languages('cxx14', 'c99')
+set_exceptions('cxx')
+
+set_configdir('$(buildir)/config')
+add_configfiles('src/mod/Version.h.in')
+set_configvar('TARGET_CHANNEL', get_config('target-channel'))
+    
+if is_mode('debug') then
+    add_defines('DEBUG')
+end
+
+if is_config('build-platform', 'YDP02X') then
+    add_defines('DICTPEN_YDP02X')
+end
+
+--- targets
 
 target('PenMods')
     add_rules('qt.shared')
@@ -44,11 +69,12 @@ target('PenMods')
         'QtSql')
     add_packages(
         'spdlog',
-        'lame',
         'elfio',
         'nlohmann_json',
         'boost',
-        'dobby')
+        'dobby',
+        'lame')
+    set_pcxxheader('src/base/Base.h')
     add_includedirs(
         'src',
         'src/base',
@@ -58,37 +84,6 @@ target('PenMods')
         -- 'crypt', 
         -- dladdr, src/common/util/System.cpp
         'dl')
-    set_warnings('all')
-    set_languages('cxx14', 'c99')
-    set_exceptions('cxx')
-    set_pcxxheader('src/base/Base.h')
-    set_configdir('$(buildir)/config')
-    add_configfiles('src/mod/Version.h.in')
-    set_configvar('TARGET_CHANNEL', get_config('target-channel'))
-    
-    if is_mode('release') then
-        if is_config('target-channel', 'priv') then
-            set_symbols('debug')
-        else
-            set_symbols('hidden')
-            set_optimize('smallest')
-            set_strip('all')
-        end
-    end
-    
-    if is_mode('debug') then
-        add_defines('DEBUG')
-        set_symbols('debug')
-        set_optimize('none')
-    end
-
-    if has_config('qemu') then
-        add_defines('QEMU')
-    end
-
-    if is_config('build-platform', 'YDP02X') then
-        add_defines('DICTPEN_YDP02X')
-    end
 
     on_run(function(target)
         os.exec(('$(projectdir)/scripts/install.sh %s %s'):format(
@@ -103,6 +98,3 @@ target('QrcExporter')
     add_packages(
         'spdlog',
         'dobby')
-    set_warnings('all')
-    set_languages('cxx14', 'c99')
-    set_exceptions('cxx')
