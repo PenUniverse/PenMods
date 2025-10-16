@@ -37,8 +37,13 @@ option_end()
 --- global configs
 
 set_allowedarchs('linux|arm64-v8a')
+
+-- The libstdc++ that shipped with DictPen only supports c++14, 
+-- and we need more new language features.
+set_runtimes('c++_static')
+set_languages('cxx23', 'c99')
+
 set_warnings('all')
-set_languages('cxx14', 'c99')
 set_exceptions('cxx')
 
 set_configdir('$(buildir)/config')
