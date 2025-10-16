@@ -1,16 +1,15 @@
 add_rules('mode.release', 'mode.debug')
 
-add_repositories('my-repo https://github.com/Redbeanw44602/xmake-repo-testing.git')
-
---- from xmake-repo
-add_requires('spdlog        1.14.1')
-add_requires('elfio         3.11')
-add_requires('nlohmann_json 3.11.3')
-add_requires('boost         1.85.0')
-
---- from my-repo
-add_requires('dobby 0.1.2')
-add_requires('lame  3.100', {configs = {shared = true}})
+add_requires('spdlog        1.15.3')
+add_requires('elfio         3.12')
+add_requires('nlohmann_json 3.12.0')
+add_requires('boost         1.88.0')
+add_requires('dobby         2023.4.14')
+add_requires('lame          3.100', {
+    -- DictPen's buildroot exists lame v3.100,
+    -- so we use it as a shared library.
+    configs = {shared = true}
+})
 
 set_allowedarchs('linux|arm64-v8a')
 
@@ -54,8 +53,10 @@ target('PenMods')
         'src',
         'src/base',
         '$(buildir)/config')
-    add_links( -- system
-        'crypt', 
+    add_links(
+        -- crypt, src/helper/ServiceManager.cpp
+        -- 'crypt', 
+        -- dladdr, src/common/util/System.cpp
         'dl')
     set_warnings('all')
     set_languages('cxx14', 'c99')
@@ -92,7 +93,8 @@ target('PenMods')
     on_run(function(target)
         os.exec(('$(projectdir)/scripts/install.sh %s %s'):format(
             get_config('mode'),
-            get_config('build-platform')))
+            get_config('build-platform'))
+        )
     end)
     
 target('QrcExporter')
