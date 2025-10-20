@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-3.0-only
+/*
+ * Copyright (C) 2022-present, PenUniverse.
+ * This file is part of the PenMods open source project.
+ */
 
 #if PL_BUILD_YDP02X
 #include "../resource/models/YDP02X/qrc_qml.h"

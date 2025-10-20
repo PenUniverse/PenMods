@@ -1,3 +1,9 @@
+// SPDX-License-Identifier: GPL-3.0-only
+/*
+ * Copyright (C) 2022-present, PenUniverse.
+ * This file is part of the PenMods open source project.
+ */
+
 // This file contains some necessary tweaks for running under QEMU environment.
 // Should not be included in a release that runs in a real environment.
 
