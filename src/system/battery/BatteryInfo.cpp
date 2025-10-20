@@ -5,7 +5,7 @@
 
 #include <QQmlContext>
 
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
 constexpr auto DESIGN_BATTERY_FULL = 1000.0;
 #endif
 

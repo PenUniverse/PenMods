@@ -48,7 +48,7 @@ private:
     // latest.
     json mLatestObject;
 
-    const Version mSelfVersion = {VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH};
+    const Version mSelfVersion = {VERSION_MAJOR, VERSION_MINOR, VERSION_ALTER};
 
     struct UpdateInfo {
         QString      mCurrentStr       = "";

@@ -41,7 +41,7 @@ struct WifiStatus {
 
 static_assert(sizeof(WifiStatus) == 0x208, "wrong size");
 
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
 
 enum DictPenFeature : int32_t {
     VERSION_PRO     = 0x0,

@@ -165,7 +165,7 @@ PEN_HOOK(void, _ZN11YLogManager19uploadUserActionLogEv, uint64 self) {
 
 // Raw Scan Img.
 
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
 PEN_HOOK(uint64, _ZN11YLogManager22doUploadUserRawScanImgEb, uint64 self, bool a2) {
     bool rtn = false;
     if (!mod::LoggerMonitor::getInstance().getNoUploadRawScanImg()) {

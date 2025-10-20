@@ -25,7 +25,7 @@
 #include "base/Hook.h"
 #include "base/StdInt.h"
 
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
 constexpr uint APP_VERSION = 212; // 2.1.2
 #endif
 

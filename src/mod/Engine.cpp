@@ -1,5 +1,5 @@
 
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
 #include "../resource/models/YDP02X/qrc_qml.h"
 #endif
 

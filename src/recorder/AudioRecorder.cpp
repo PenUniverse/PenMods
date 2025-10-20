@@ -70,7 +70,7 @@ bool AudioRecorder::start() {
     // Init audio format.
     QAudioFormat format;
     format.setSampleRate(16000);
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
     format.setChannelCount(2);
 #endif
     format.setSampleSize(16);
@@ -198,7 +198,7 @@ bool AudioRecorder::isWorking() { return mInputAudio != nullptr; }
 
 } // namespace mod
 
-#if !QEMU
+#if !PL_QEMU
 
 PEN_HOOK(uint, _ZN12YSoundCenter4playERK7QStringS2_S2_i, void* self, void* a2, void* a3, void* a4, void* a5) {
     if (mod::AudioRecorder::getInstance().isWorking()) {

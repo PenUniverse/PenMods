@@ -1,7 +1,7 @@
 // This file contains some necessary tweaks for running under QEMU environment.
 // Should not be included in a release that runs in a real environment.
 
-#if QEMU
+#if PL_QEMU
 
 #include "common/Utils.h"
 #include "common/util/System.h"

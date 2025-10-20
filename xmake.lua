@@ -17,7 +17,7 @@ option('qemu')
     set_default(false)
     set_showmenu(true)
     set_description('Enable build for QEMU.')
-    add_defines('QEMU')
+    add_defines('PL_QEMU')
 option_end()
 
 option('build-platform')
@@ -36,6 +36,8 @@ option_end()
 
 --- global configs
 
+set_version('2.0.0')
+
 set_allowedarchs('linux|arm64-v8a')
 
 -- The libstdc++ that shipped with DictPen only supports c++14, 
@@ -46,12 +48,11 @@ set_languages('cxx23', 'c99')
 set_warnings('all')
 set_exceptions('cxx')
 
-set_configdir('$(buildir)/config')
+set_configdir('$(builddir)/config')
 add_configfiles('src/mod/Version.h.in')
-set_configvar('TARGET_CHANNEL', get_config('target-channel'))
-    
+
 if is_mode('debug') then
-    add_defines('DEBUG')
+    add_defines('PL_DEBUG')
 end
 
 if is_config('build-platform', 'YDP02X') then
@@ -83,12 +84,17 @@ target('PenMods')
     add_includedirs(
         'src',
         'src/base',
-        '$(buildir)/config')
+        '$(builddir)/config')
     add_links(
         -- crypt, src/helper/ServiceManager.cpp
         -- 'crypt', 
         -- dladdr, src/common/util/System.cpp
         'dl')
+    
+    on_config(function (target) 
+        target:add('defines', 'PL_BUILD_' .. get_config('build-platform'))
+        target:add('defines', 'PL_' .. get_config('target-channel'):upper() .. '_CHANNEL')
+    end)
 
     on_run(function(target)
         os.exec(('$(projectdir)/scripts/install.sh %s %s'):format(

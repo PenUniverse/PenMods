@@ -5,7 +5,7 @@
 
 #include <QQmlContext>
 
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
 constexpr auto LED_DEFAULT_GPIO_ID = 15;
 #endif
 
@@ -22,11 +22,11 @@ bool Torch::getStatus() { return exec(QString("cat /sys/class/gpio/gpio%1/value"
 void Torch::setStatus(bool stat) {
     if (getStatus() != stat) {
         if (stat) {
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
             PEN_CALL(void*, "led_on", uint)(LED_DEFAULT_GPIO_ID);
 #endif
         } else {
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
             PEN_CALL(void*, "led_off", uint)(LED_DEFAULT_GPIO_ID);
 #endif
         }

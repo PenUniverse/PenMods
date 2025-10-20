@@ -2,27 +2,27 @@
 
 // clang-format off
 
-#define VERSION_CONFIG      120
+#define VERSION_CONFIG      ${VERSION_MAJOR}${VERSION_MINOR}${VERSION_ALTER}
 
-#define VERSION_MAJOR       1
-#define VERSION_MINOR       3
-#define VERSION_PATCH       0
+#define VERSION_MAJOR       ${VERSION_MAJOR}
+#define VERSION_MINOR       ${VERSION_MINOR}
+#define VERSION_ALTER       ${VERSION_ALTER}
 
-#define VERSION_COMMIT_SHA  ${GIT_COMMIT}
-
-#define VERSION_CHANNEL     ${TARGET_CHANNEL}
+#define BUILD_MODE          "${MODE}"
+#define BUILD_COMMIT_SHA    "${GIT_COMMIT}"
 
 #define VERSION_TO_STRING_INNER(ver) #ver
 #define VERSION_TO_STRING(ver)  VERSION_TO_STRING_INNER(ver)
 
-#define VERSION_STRING                      \
-    VERSION_TO_STRING(VERSION_MAJOR)        \
-    "." VERSION_TO_STRING(VERSION_MINOR)    \
-    "." VERSION_TO_STRING(VERSION_PATCH)    \
+#define VERSION_STRING                   \
+    VERSION_TO_STRING(VERSION_MAJOR)     \
+    "." VERSION_TO_STRING(VERSION_MINOR) \
+    "." VERSION_TO_STRING(VERSION_ALTER) \
 
-#define BUILD_INFO_STRING                       \
-    "[" VERSION_TO_STRING(VERSION_CHANNEL) "]"  \
-    " " VERSION_STRING                          \
-    "+" VERSION_TO_STRING(VERSION_COMMIT_SHA)
+#define BUILD_INFO_STRING                    \
+    "[" VERSION_TO_STRING(BUILD_CHANNEL) "]" \
+    " " VERSION_STRING                       \
+    "+" BUILD_COMMIT_SHA                     \
+    "-" BUILD_MODE   
 
 // clang-format on

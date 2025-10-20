@@ -14,7 +14,7 @@
 #define UH_TEMP_PATH    "/tmp/modupdate/"
 #define UH_TEMP_DIRNAME "modupdate"
 
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
 #define UH_MAIN_URL "https://dictpen-backend.0xffffffffffffffff.xyz/"
 #endif
 

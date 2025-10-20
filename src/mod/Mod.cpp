@@ -86,7 +86,7 @@ void Mod::onUiCompleted() const {
     };
 
     std::vector<StoragedItem> list = {
-#ifdef DICTPEN_YDP02X
+#if PL_BUILD_YDP02X
         {"VENDOR_COMPANY_ID",   "string", "COMPANY_HZ"             },
         // YDP021/022 满分版 16G
         {"VENDOR_CUSTOM_ID_0E", "string", "OVERHEAD_D2_SKU_EXA_ADV"}
@@ -171,7 +171,7 @@ __attribute__((constructor)) static void BeforeMain() {
     // Setup global logger.
 
     auto global = spdlog::stdout_color_mt("Global");
-#ifdef DEBUG
+#ifdef PL_DEBUG
     spdlog::set_level(spdlog::level::debug);
 #endif
     spdlog::set_pattern("[%H:%M:%S.%e] [%n] [%l] %v");
