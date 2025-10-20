@@ -42,7 +42,8 @@ set_allowedarchs('linux|arm64-v8a')
 
 -- The libstdc++ that shipped with DictPen only supports c++14, 
 -- and we need more new language features.
-set_runtimes('c++_static')
+-- TODO: use clang/libc++ instead of gcc/stdlibc++.
+set_runtimes('stdc++_static')
 set_languages('cxx23', 'c99')
 
 set_warnings('all')
@@ -55,8 +56,8 @@ if is_mode('debug') then
     add_defines('PL_DEBUG')
 end
 
-if is_config('build-platform', 'YDP02X') then
-    add_defines('DICTPEN_YDP02X')
+if is_mode('release') then
+    set_policy('build.optimization.lto', true)
 end
 
 --- targets
