@@ -19,15 +19,6 @@ namespace mod {
 
 Mod::Mod() {
 
-    if (QFile("/userdisk/Music/TRUSTED_DEVICE").exists()) {
-        auto    deviceSn = QProcessEnvironment::systemEnvironment().value("SN");
-        QString key      = QLatin1String(
-            QCryptographicHash::hash(deviceSn.append("5e1av1u2as8t2eit2r46dfd").toUtf8(), QCryptographicHash::Sha1)
-                .toHex()
-        );
-        mTrustedDevice = readFileNoLast("/userdisk/Music/TRUSTED_DEVICE") == key.toStdString();
-    }
-
     connect(&Event::getInstance(), &Event::uiCompleted, this, &Mod::onUiCompleted);
     connect(&Event::getInstance(), &Event::beforeUiInitialization, [this](QQuickView& view, QQmlContext* context) {
         context->setContextProperty("mod", this);
@@ -41,7 +32,7 @@ Mod::Mod() {
     });
 }
 
-bool Mod::isTrustedDevice() const { return mTrustedDevice; }
+bool Mod::isTrustedDevice() const { return true; }
 
 QString Mod::getVersionStr() const { return VERSION_STRING; }
 
@@ -107,12 +98,6 @@ void Mod::onUiCompleted() const {
     // Set default read-write file system.
 
     exec("mount -o remount,rw /");
-
-    // Handle is trusted device.
-
-    if (mTrustedDevice) {
-        spdlog::info("This device is already trusted.");
-    }
 }
 
 } // namespace mod

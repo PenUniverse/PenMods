@@ -42,8 +42,6 @@ private:
     explicit Mod();
 
     std::string mClassName = "mod";
-
-    bool mTrustedDevice = false;
 };
 
 } // namespace mod
