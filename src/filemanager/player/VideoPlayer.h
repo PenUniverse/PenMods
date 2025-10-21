@@ -6,9 +6,7 @@
 
 #pragma once
 
-#include "filemanager/Config.h"
-
-FILEMANAGER_BEGIN
+namespace mod::filemanager {
 
 class VideoPlayer : public QObject, public Singleton<VideoPlayer> {
     Q_OBJECT
@@ -27,6 +25,5 @@ private:
     explicit VideoPlayer();
 
     QString mOpeningFileName;
-};
-
-FILEMANAGER_END
+}; // namespace mod::filemanager
+} // namespace mod::filemanager

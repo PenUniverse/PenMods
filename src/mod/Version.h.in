@@ -25,4 +25,8 @@
     "+" BUILD_COMMIT_SHA                     \
     "-" BUILD_MODE   
 
+#define QML_PACKAGE_NAME          "com.github.penuniverse"
+#define QML_PACKAGE_VERSION_MAJOR 1
+#define QML_PACKAGE_VERSION_MINOR 0
+
 // clang-format on

@@ -13,6 +13,8 @@
 
 #include "system/input/InputDaemon.h"
 
+#include "Version.h"
+
 #include <QAudio>
 #include <QAudioDeviceInfo>
 #include <QDir>
@@ -206,28 +208,28 @@ bool AudioRecorder::isWorking() { return mInputAudio != nullptr; }
 
 #if !PL_QEMU
 
-PEN_HOOK(uint, _ZN12YSoundCenter4playERK7QStringS2_S2_i, void* self, void* a2, void* a3, void* a4, void* a5) {
+PEN_HOOK(uint32, _ZN12YSoundCenter4playERK7QStringS2_S2_i, void* self, void* a2, void* a3, void* a4, void* a5) {
     if (mod::AudioRecorder::getInstance().isWorking()) {
         return (*(uint32*)PEN_SYM("g_playSeq"))++;
     }
     return origin(self, a2, a3, a4, a5);
 }
 
-PEN_HOOK(uint, _ZN12YSoundCenter8playFileERK7QString, void* self, void* a2) {
+PEN_HOOK(uint32, _ZN12YSoundCenter8playFileERK7QString, void* self, void* a2) {
     if (mod::AudioRecorder::getInstance().isWorking()) {
         return (*(uint32*)PEN_SYM("g_playSeq"))++;
     }
     return origin(self, a2);
 }
 
-PEN_HOOK(uint, _ZN12YSoundCenter12playFileDataERK7QString, void* self, QString* a2) {
+PEN_HOOK(uint32, _ZN12YSoundCenter12playFileDataERK7QString, void* self, QString* a2) {
     if (mod::AudioRecorder::getInstance().isWorking()) {
         return (*(uint32*)PEN_SYM("g_playSeq"))++;
     }
     return origin(self, a2);
 }
 
-PEN_HOOK(uint, _ZN12YSoundCenter9playMusicERK7QStringxd, void* self, void* a2, void* a3, void* a4) {
+PEN_HOOK(uint32, _ZN12YSoundCenter9playMusicERK7QStringxd, void* self, void* a2, void* a3, void* a4) {
     if (mod::AudioRecorder::getInstance().isWorking()) {
         return (*(uint32*)PEN_SYM("g_playSeq"))++;
     }

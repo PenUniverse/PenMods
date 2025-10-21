@@ -34,7 +34,7 @@ std::string exec(const char* cmd) {
 }
 
 // 12.333 -> 12.3, if n=1
-double dec(double d, ushort n) { return round(d * pow(10, n)) / pow(10, n); }
+double dec(double d, uint16 n) { return round(d * pow(10, n)) / pow(10, n); }
 
 std::string readFileNoLast(const char* path) {
     auto str = readFile(path);

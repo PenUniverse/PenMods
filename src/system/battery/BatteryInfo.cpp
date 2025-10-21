@@ -123,7 +123,7 @@ void BatteryInfo::update() {
     setPrediction(type, duration);
 }
 
-uint BatteryInfo::getAutoSuspendDuration() const { return mAutoSuspendDuration; }
+uint32 BatteryInfo::getAutoSuspendDuration() const { return mAutoSuspendDuration; }
 
 QString BatteryInfo::getAutoSuspendDurationStr() const {
     if (mAutoSuspendDuration == 0) {
@@ -133,7 +133,7 @@ QString BatteryInfo::getAutoSuspendDurationStr() const {
 }
 
 void BatteryInfo::setAutoSuspendDurationStr(const QString& str) {
-    uint val = 600;
+    uint32 val = 600;
     if (str == "永不") {
         val = 0;
     } else if (str.contains("分")) {

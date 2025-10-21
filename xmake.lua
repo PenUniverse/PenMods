@@ -3,7 +3,6 @@ add_rules('mode.release', 'mode.debug')
 add_requires('spdlog        1.15.3')
 add_requires('elfio         3.12')
 add_requires('nlohmann_json 3.12.0')
-add_requires('boost         1.88.0')
 add_requires('dobby         2023.4.14')
 add_requires('lame          3.100', {
     -- DictPen's buildroot exists lame v3.100,
@@ -78,7 +77,6 @@ target('PenMods')
         'spdlog',
         'elfio',
         'nlohmann_json',
-        'boost',
         'dobby',
         'lame')
     set_pcxxheader('src/base/Base.h')

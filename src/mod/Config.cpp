@@ -12,9 +12,7 @@
 
 #include "Version.h"
 
-#include <boost/filesystem.hpp>
-
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 namespace mod {
 

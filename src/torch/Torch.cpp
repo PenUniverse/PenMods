@@ -29,11 +29,11 @@ void Torch::setStatus(bool stat) {
     if (getStatus() != stat) {
         if (stat) {
 #if PL_BUILD_YDP02X
-            PEN_CALL(void*, "led_on", uint)(LED_DEFAULT_GPIO_ID);
+            PEN_CALL(void*, "led_on", uint32)(LED_DEFAULT_GPIO_ID);
 #endif
         } else {
 #if PL_BUILD_YDP02X
-            PEN_CALL(void*, "led_off", uint)(LED_DEFAULT_GPIO_ID);
+            PEN_CALL(void*, "led_off", uint32)(LED_DEFAULT_GPIO_ID);
 #endif
         }
         emit statusChanged();

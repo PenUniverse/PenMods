@@ -17,8 +17,8 @@ public:
     void onUiCompleted();
 
     // Set to 0 will never execute;
-    bool setScreenOff(uint sec);
-    bool setSystemSuspend(uint sec);
+    bool setScreenOff(uint32 sec);
+    bool setSystemSuspend(uint32 sec);
 
     // Reset input daemon from cfg.
     void reset();
@@ -37,9 +37,9 @@ private:
         std::string mContent;
     };
 
-    uint mBackLightDown = 30;
-    uint mScreenOff     = 60;
-    uint mSystemSuspend = 600;
+    uint32 mBackLightDown = 30;
+    uint32 mScreenOff     = 60;
+    uint32 mSystemSuspend = 600;
 
     bool _resetConfig();
 

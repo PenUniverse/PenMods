@@ -10,9 +10,6 @@
 #include "common/service/Logger.h"
 #include "common/util/System.h"
 
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/predicate.hpp>
-
 #include <elfio/elfio.hpp>
 
 #include <dobby.h>
@@ -64,11 +61,11 @@ SymDB::SymDB() : Logger("SymDB") {
         Elf_Half    section_index{};
         uchar       other{};
         loader.get_symbol(index, name, value, size, bind, type, section_index, other);
-        if (!name.empty() && value && !boost::algorithm::starts_with(name, "$")
-            && !boost::algorithm::starts_with(name, ".") && !boost::algorithm::starts_with(name, "_ZNS") // template
-            && !boost::algorithm::starts_with(name, "_ZT")                                               // typeinfo
-            && !boost::algorithm::starts_with(name, "_ZSt")    // standard library
-            && !boost::algorithm::starts_with(name, "_ZGV")) { // guard variable
+        if (!name.empty() && value && !name.starts_with("$") && !name.starts_with(".")
+            && !name.starts_with("_ZNS")    // template
+            && !name.starts_with("_ZT")     // typeinfo
+            && !name.starts_with("_ZSt")    // standard library
+            && !name.starts_with("_ZGV")) { // guard variable
             // warn("sym: {} - {:#x}", name, value);
             mDatabase.insert(H(name.c_str()), value);
         }

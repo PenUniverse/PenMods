@@ -74,7 +74,7 @@ private:
 
     void _passAdbVerification();
 
-    std::string _getRandomString(uint length);
+    std::string _getRandomString(uint32 length);
 };
 
 } // namespace mod

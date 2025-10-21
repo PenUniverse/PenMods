@@ -23,10 +23,10 @@ struct Version {
     bool                  operator>(Version) const;
     bool                  operator<(Version) const;
     [[nodiscard]] QString toString() const;
-    [[nodiscard]] uint    toNumber() const;
-    uint                  mMajor;
-    uint                  mMinor;
-    uint                  mRevision;
+    [[nodiscard]] uint32  toNumber() const;
+    uint32                mMajor;
+    uint32                mMinor;
+    uint32                mRevision;
 };
 
 class Updater : public QObject, public Singleton<Updater>, private Logger {
@@ -62,8 +62,8 @@ private:
         UpdateStatus mOtaStatus        = UpdateStatus::LATEST_VERSION;
         QString      mUpdateNote       = "";
         double       mPackageSize      = 0.0;
-        uint         mDownloadProgress = 0;
-        uint         mInstallProgress  = 0;
+        uint32       mDownloadProgress = 0;
+        uint32       mInstallProgress  = 0;
     } mInfo;
 
     std::string _calcFileMd5(const QString&);

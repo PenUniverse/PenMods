@@ -42,7 +42,7 @@ WordBookTweaks::WordBookTweaks() {
         // for tab-type phrase, fix wordCount;
         if (query.startsWith("SELECT count(*) FROM table_wordbook") && getPhraseTab()) {
             auto tabType =
-                PEN_CALL(uint, "_ZNK16YWordBookManager7tabTypeEv", void*)(YPointer<YWordBookManager>::getInstance());
+                PEN_CALL(uint32, "_ZNK16YWordBookManager7tabTypeEv", void*)(YPointer<YWordBookManager>::getInstance());
             if (tabType == 2) {
                 query += " AND word NOT LIKE '% %'";
             } else if (tabType == 3) {

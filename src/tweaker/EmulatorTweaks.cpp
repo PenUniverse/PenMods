@@ -109,13 +109,15 @@ PEN_HOOK(void*, _ZN12YSoundCenter17startSoundProcessEv, void* self) {
     return nullptr;
 }
 
-PEN_HOOK(uint, _ZN12YSoundCenter4playERK7QStringS2_S2_i, void* a1, void* a2, void* a3, void* a4, void* a5) { return 0; }
+PEN_HOOK(uint32, _ZN12YSoundCenter4playERK7QStringS2_S2_i, void* a1, void* a2, void* a3, void* a4, void* a5) {
+    return 0;
+}
 
-PEN_HOOK(uint, _ZN12YSoundCenter8playFileERK7QString, void* a1, void* a2) { return 0; }
+PEN_HOOK(uint32, _ZN12YSoundCenter8playFileERK7QString, void* a1, void* a2) { return 0; }
 
-PEN_HOOK(uint, _ZN12YSoundCenter9playMusicERK7QStringxd, void* a1, void* a2, void* a3, void* a4) { return 0; }
+PEN_HOOK(uint32, _ZN12YSoundCenter9playMusicERK7QStringxd, void* a1, void* a2, void* a3, void* a4) { return 0; }
 
-PEN_HOOK(uint, _ZN12YSoundCenter12playFileDataERK7QString, void* self, QString* a2) { return 0; }
+PEN_HOOK(uint32, _ZN12YSoundCenter12playFileDataERK7QString, void* self, QString* a2) { return 0; }
 
 // relocation database
 

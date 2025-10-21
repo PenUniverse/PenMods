@@ -6,12 +6,6 @@
 
 #pragma once
 
-using ushort = unsigned short;
-using uint   = unsigned int;
-using ulong  = unsigned long;
-using llong  = long long;
-using ullong = unsigned long long;
-
 using uchar = unsigned char;
 using schar = signed char;
 using byte  = uchar;

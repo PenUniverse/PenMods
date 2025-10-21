@@ -10,14 +10,12 @@
 
 #include "common/service/Logger.h"
 
-#include "filemanager/Config.h"
-
 #include <QAbstractListModel>
 #include <QDir>
 #include <QFileInfo>
 #include <QFileSystemWatcher>
 
-FILEMANAGER_BEGIN
+namespace mod::filemanager {
 
 class FileManager : public QAbstractListModel, public Singleton<FileManager>, private Logger {
     Q_OBJECT
@@ -142,6 +140,5 @@ private:
     QDir mCurrentPlayingPath;
 
     void refreshPlayList();
-};
-
-FILEMANAGER_END
+}; // namespace mod::filemanager
+} // namespace mod::filemanager

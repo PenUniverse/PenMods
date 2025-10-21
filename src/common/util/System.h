@@ -6,14 +6,12 @@
 
 #pragma once
 
-#include "_Config.h"
-
 #include <QFileInfo>
 
-MOD_UTIL_BEGIN
+namespace mod::util {
 
 extern QFileInfo getModuleFileInfo();
 
 extern QFileInfo getApplicationFileInfo();
 
-MOD_UTIL_END
+} // namespace mod::util

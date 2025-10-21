@@ -21,7 +21,7 @@
 #include <QTimer>
 #include <QUrl>
 
-FILEMANAGER_BEGIN
+namespace mod::filemanager {
 
 static const char* HIDDEN_FLAG = ".HIDDEN_DIR";
 static size_t      MAX_FILES   = 65535;
@@ -423,8 +423,7 @@ void FileManager::refreshPlayList() {
         }
     });
 }
-
-FILEMANAGER_END
+} // namespace mod::filemanager
 
 PEN_HOOK(void, _ZN13YMediaManager13entryMyImportEv, uint64) {}
 

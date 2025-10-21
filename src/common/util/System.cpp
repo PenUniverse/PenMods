@@ -9,7 +9,7 @@
 #include <dlfcn.h>
 #include <unistd.h>
 
-MOD_UTIL_BEGIN
+namespace mod::util {
 
 QFileInfo getModuleFileInfo() {
     Dl_info info;
@@ -23,4 +23,4 @@ QFileInfo getApplicationFileInfo() {
     return QFileInfo(path);
 }
 
-MOD_UTIL_END
+} // namespace mod::util

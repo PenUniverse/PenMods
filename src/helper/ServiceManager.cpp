@@ -166,11 +166,11 @@ bool ServiceManager::setSshRootPasswd(const QString& val) {
 
 void ServiceManager::_passAdbVerification() { exec("touch /tmp/.adb_auth_verified"); }
 
-std::string ServiceManager::_getRandomString(uint length) {
+std::string ServiceManager::_getRandomString(uint32 length) {
     auto*       generator = QRandomGenerator::global();
     const char* sigs      = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     std::string ret;
-    for (uint i = 0; i < length; i++) {
+    for (uint32 i = 0; i < length; i++) {
         ret += sigs[generator->bounded(26 * 2)];
     }
     return ret;

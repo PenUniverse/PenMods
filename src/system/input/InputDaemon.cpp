@@ -20,7 +20,7 @@ InputDaemon::InputDaemon() : Logger("InputDaemon") {
 
 void InputDaemon::onUiCompleted() { reset(); }
 
-bool InputDaemon::setScreenOff(uint sec) {
+bool InputDaemon::setScreenOff(uint32 sec) {
     mScreenOff = sec;
     if (sec > 10) {
         mBackLightDown = sec - 10;
@@ -31,7 +31,7 @@ bool InputDaemon::setScreenOff(uint sec) {
     return true;
 }
 
-bool InputDaemon::setSystemSuspend(uint sec) {
+bool InputDaemon::setSystemSuspend(uint32 sec) {
     if (mSystemSuspend <= mBackLightDown && mSystemSuspend != 0) {
         return false;
     }

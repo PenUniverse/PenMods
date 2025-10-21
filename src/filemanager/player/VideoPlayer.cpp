@@ -13,13 +13,13 @@
 
 #include <QQmlContext>
 
-FILEMANAGER_BEGIN
+namespace mod::filemanager {
 
 VideoPlayer::VideoPlayer() {
     connect(&Event::getInstance(), &Event::beforeUiInitialization, [this](QQuickView& view, QQmlContext* context) {
         context->setContextProperty("videoPlayer", this);
     });
-}
+} // namespace mod::filemanager
 
 void VideoPlayer::open(QString dir) { mOpeningFileName = std::move(dir); }
 
@@ -42,5 +42,4 @@ void VideoPlayer::onStatusChanged(const QString& status) {
         break;
     }
 }
-
-FILEMANAGER_END
+} // namespace mod::filemanager
