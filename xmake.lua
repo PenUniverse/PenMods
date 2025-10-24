@@ -40,10 +40,14 @@ set_version('2.0.0')
 set_allowedarchs('linux|arm64-v8a')
 
 -- The libstdc++ that shipped with DictPen only supports c++14, 
--- and we need more new language features.
--- TODO: use clang/libc++ instead of gcc/stdlibc++.
-set_runtimes('stdc++_static')
-set_languages('cxx23', 'c99')
+-- but we need more new language features.
+-- The standard library combination used by PenMods:
+--
+--    (dynamic) glibc 2.27 + (static) libc++
+--
+-- !IMPORTANT! Please refer to the build guide to use the Zig toolchain
+--             and specify correct triples to configure PenMods.
+set_languages('cxx23', 'c11')
 
 set_warnings('all')
 set_exceptions('cxx')

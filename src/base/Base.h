@@ -17,9 +17,6 @@
 #include <utility>
 #include <vector>
 
-#include <bits/stdint-intn.h>
-#include <unistd.h>
-
 #include <QObject>
 #include <QString>
 
