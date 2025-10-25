@@ -9,6 +9,9 @@ add_requires('lame          3.100', {
     -- so we use it as a shared library.
     configs = {shared = true}
 })
+add_requires('libxcrypt     4.4.38', {
+    configs = {shared = true}
+})
 
 --- options
 
@@ -34,6 +37,8 @@ option('target-channel')
 option_end()
 
 --- global configs
+
+set_license('GPL-3.0-only')
 
 set_version('2.0.0')
 
@@ -82,15 +87,15 @@ target('PenMods')
         'elfio',
         'nlohmann_json',
         'dobby',
-        'lame')
+        'lame',
+        -- crypt, src/helper/ServiceManager.cpp
+        'libxcrypt')
     set_pcxxheader('src/base/Base.h')
     add_includedirs(
         'src',
         'src/base',
         '$(builddir)/config')
     add_links(
-        -- crypt, src/helper/ServiceManager.cpp
-        -- 'crypt', 
         -- dladdr, src/common/util/System.cpp
         'dl')
     
