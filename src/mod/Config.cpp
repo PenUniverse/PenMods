@@ -90,10 +90,13 @@ Config::Config() : Logger("Config") {
         }},
         {"ai", {
             {"speech_assistant", false},
-            {"bing", {
-                {"enabled", false},
-                {"request_address", ""},
-                {"chathub_address", ""}
+            {"chatbot", {
+                {"api_key", ""},
+                {"api_endpoint", "https://api.deepseek.com/v1/chat/completions"},
+                {"model", "deepseek-chat"},
+                {"temperature", 0.7},
+                {"default_prompt", "你是一个有用的助手，使用中文回复用户的问题。"},
+                {"streaming", true}
             }}
         }}
     };
