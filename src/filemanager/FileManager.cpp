@@ -21,6 +21,8 @@
 #include <QTimer>
 #include <QUrl>
 
+#include <QProcess>
+
 namespace mod::filemanager {
 
 static const char* HIDDEN_FLAG = ".HIDDEN_DIR";
@@ -137,6 +139,8 @@ QVariant FileManager::data(const QModelIndex& index, int role) const {
         return entity->suffix().toLower();
     case UserRoles::ExtensionIcon:
         return getExtIcon();
+    case UserRoles::IsExecutable:
+        return entity->isExecutable();
     default:
         return {};
     }
@@ -148,7 +152,8 @@ QHash<int, QByteArray> FileManager::roleNames() const {
         {(int)UserRoles::IsDirectory,   "isDir"   },
         {(int)UserRoles::SizeString,    "sizeStr" },
         {(int)UserRoles::ExtensionName, "extName" },
-        {(int)UserRoles::ExtensionIcon, "extIcon" }
+        {(int)UserRoles::ExtensionIcon, "extIcon" },
+        {(int)UserRoles::IsExecutable, "isExecutable"}
     };
 };
 
@@ -452,6 +457,22 @@ void FileManager::refreshPlayList() {
             list.emplace_back(file);
         }
     });
+}
+
+void FileManager::executeFile(const QString& fileName) {
+    QString filePath = mCurrentPath.absoluteFilePath(fileName);
+    if (!QFileInfo(filePath).isExecutable()) {
+        emit exception("文件不可执行");
+        return;
+    }
+
+    QProcess* process = new QProcess(this);
+    process->start(filePath);
+    if (!process->waitForStarted()) {
+        emit exception("启动失败");
+        delete process;
+        return;
+    }
 }
 } // namespace mod::filemanager
 

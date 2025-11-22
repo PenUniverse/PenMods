@@ -97,6 +97,8 @@ public:
 
     Q_INVOKABLE void playFromView(const QString& fileName);
 
+    Q_INVOKABLE void executeFile(const QString& fileName);
+
 signals:
 
     void currentTitleChanged();
@@ -123,7 +125,7 @@ private:
 
     // FileManager
 
-    enum class UserRoles { FileName = Qt::UserRole + 1, IsDirectory, SizeString, ExtensionName, ExtensionIcon };
+    enum class UserRoles { FileName = Qt::UserRole + 1, IsDirectory, SizeString, ExtensionName, ExtensionIcon, IsExecutable };
 
     std::string mClassName{"fm"};
     json        mCfg;
