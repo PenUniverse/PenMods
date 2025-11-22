@@ -33,6 +33,7 @@ FileManager::FileManager() : QAbstractListModel(), Logger("FileManager") {
     mOrder            = mCfg["order"]["basic"];
     mOrderReversed    = mCfg["order"]["reversed"];
     mHidePairedLyrics = mCfg["hide_paired_lyrics"];
+    mShowHiddenFiles  = mCfg["show_hidden_files"];
 
     connect(&mFileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &FileManager::onDirectoryChanged);
     connect(&Event::getInstance(), &Event::uiCompleted, [this]() {
@@ -336,8 +337,12 @@ void FileManager::_initCurrentDir() {
         order |= QDir::Reversed;
     }
     order     = order | QDir::DirsFirst | QDir::IgnoreCase;
+    auto flags = QDir::Dirs | QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot;
+    if (getShowHiddenFiles()) {
+        flags |= QDir::Hidden;
+    }
     auto list = mCurrentPath.entryInfoList(
-        QDir::Dirs | QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot,
+        flags,
         static_cast<QDir::SortFlags>(order)
     );
 
@@ -372,6 +377,9 @@ void FileManager::_initCurrentDir() {
         if (std::find(pairedLyrics.begin(), pairedLyrics.end(), i.absoluteFilePath()) != pairedLyrics.end()) {
             continue;
         }
+        if (!getShowHiddenFiles() && i.fileName().startsWith('.')) {
+            continue;
+        }
         mEntities.emplace_back(std::make_shared<QFileInfo>(i));
     }
 }
@@ -392,6 +400,17 @@ void FileManager::setHidePairedLyrics(bool val) {
         mCfg["hide_paired_lyrics"] = val;
         WRITE_CFG;
         emit hidePairedLyricsChanged();
+    }
+}
+
+bool FileManager::getShowHiddenFiles() const { return mShowHiddenFiles; }
+
+void FileManager::setShowHiddenFiles(bool val) {
+    if (mShowHiddenFiles != val) {
+        mShowHiddenFiles          = val;
+        mCfg["show_hidden_files"] = val;
+        WRITE_CFG;
+        emit showHiddenFilesChanged();
     }
 }
 

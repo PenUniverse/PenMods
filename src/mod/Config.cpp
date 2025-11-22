@@ -86,7 +86,8 @@ Config::Config() : Logger("Config") {
                 {"basic", 0},
                 {"reversed", false}
             }},
-            {"hide_paired_lyrics", false}
+            {"hide_paired_lyrics", false},
+            {"show_hidden_files", false}
         }},
         {"ai", {
             {"speech_assistant", false},

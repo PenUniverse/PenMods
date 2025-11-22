@@ -28,6 +28,9 @@ class FileManager : public QAbstractListModel, public Singleton<FileManager>, pr
     // MusicPlayer
     Q_PROPERTY(bool hidePairedLyrics READ getHidePairedLyrics WRITE setHidePairedLyrics NOTIFY hidePairedLyricsChanged);
 
+    // File visibility
+    Q_PROPERTY(bool showHiddenFiles READ getShowHiddenFiles WRITE setShowHiddenFiles NOTIFY showHiddenFilesChanged);
+
 public:
     [[nodiscard]] int rowCount(const QModelIndex& parent) const override;
 
@@ -87,6 +90,10 @@ public:
     [[nodiscard]] bool getHidePairedLyrics() const;
 
     void setHidePairedLyrics(bool);
+    
+    [[nodiscard]] bool getShowHiddenFiles() const;
+
+    void setShowHiddenFiles(bool);
 
     Q_INVOKABLE void playFromView(const QString& fileName);
 
@@ -107,6 +114,8 @@ signals:
     // MusicPlayer
 
     void hidePairedLyricsChanged();
+    
+    void showHiddenFilesChanged();
 
 private:
     friend Singleton<FileManager>;
@@ -136,6 +145,8 @@ private:
     // MusicPlayer
 
     bool mHidePairedLyrics;
+
+    bool mShowHiddenFiles;
 
     QDir mCurrentPlayingPath;
 
