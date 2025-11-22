@@ -12,6 +12,7 @@ add_requires('lame          3.100', {
 add_requires('libxcrypt     4.4.38', {
     configs = {shared = true}
 })
+add_requires("libwebp       1.3.0")
 
 --- options
 
@@ -89,7 +90,8 @@ target('PenMods')
         'dobby',
         'lame',
         -- crypt, src/helper/ServiceManager.cpp
-        'libxcrypt')
+        'libxcrypt',
+        'libwebp')
     set_pcxxheader('src/base/Base.h')
     add_includedirs(
         'src',
