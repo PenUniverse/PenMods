@@ -21,6 +21,8 @@
 #include <QTimer>
 #include <QUrl>
 
+#include <QProcess>
+
 namespace mod::filemanager {
 
 static const char* HIDDEN_FLAG = ".HIDDEN_DIR";
@@ -33,6 +35,7 @@ FileManager::FileManager() : QAbstractListModel(), Logger("FileManager") {
     mOrder            = mCfg["order"]["basic"];
     mOrderReversed    = mCfg["order"]["reversed"];
     mHidePairedLyrics = mCfg["hide_paired_lyrics"];
+    mShowHiddenFiles  = mCfg["show_hidden_files"];
 
     connect(&mFileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &FileManager::onDirectoryChanged);
     connect(&Event::getInstance(), &Event::uiCompleted, [this]() {
@@ -83,6 +86,7 @@ QVariant FileManager::data(const QModelIndex& index, int role) const {
         QString name;
         switch (H(ext.toUtf8())) {
         case H("mp3"):
+        case H("flac"):
             name = "mp3";
             break;
         case H("md"):
@@ -108,6 +112,16 @@ QVariant FileManager::data(const QModelIndex& index, int role) const {
         case H("webm"):
             name = "mp4";
             break;
+        case H("png"):
+        case H("jpg"):
+        case H("jpeg"):
+        case H("gif"):
+        case H("bmp"):
+        case H("svg"):
+        case H("ico"):
+        case H("webp"):
+            name = "image";
+            break;
         default:
             return "qrc:/images/file-empty.png";
         }
@@ -125,6 +139,8 @@ QVariant FileManager::data(const QModelIndex& index, int role) const {
         return entity->suffix().toLower();
     case UserRoles::ExtensionIcon:
         return getExtIcon();
+    case UserRoles::IsExecutable:
+        return entity->isExecutable();
     default:
         return {};
     }
@@ -136,7 +152,8 @@ QHash<int, QByteArray> FileManager::roleNames() const {
         {(int)UserRoles::IsDirectory,   "isDir"   },
         {(int)UserRoles::SizeString,    "sizeStr" },
         {(int)UserRoles::ExtensionName, "extName" },
-        {(int)UserRoles::ExtensionIcon, "extIcon" }
+        {(int)UserRoles::ExtensionIcon, "extIcon" },
+        {(int)UserRoles::IsExecutable, "isExecutable"}
     };
 };
 
@@ -182,7 +199,7 @@ bool FileManager::canCdUp() const {
     return curLength != rootLength && curLength - 1 != rootLength;
 }
 
-void FileManager::loadMore() { loadMore(ColumnDBLimiter::getInstance().getLimit()); }
+void FileManager::loadMore() { loadMore(1500); }
 
 void FileManager::loadMore(int amount) {
     // Do not use 'isHasMore()' here!
@@ -336,8 +353,12 @@ void FileManager::_initCurrentDir() {
         order |= QDir::Reversed;
     }
     order     = order | QDir::DirsFirst | QDir::IgnoreCase;
+    auto flags = QDir::Dirs | QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot;
+    if (getShowHiddenFiles()) {
+        flags |= QDir::Hidden;
+    }
     auto list = mCurrentPath.entryInfoList(
-        QDir::Dirs | QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot,
+        flags,
         static_cast<QDir::SortFlags>(order)
     );
 
@@ -372,6 +393,9 @@ void FileManager::_initCurrentDir() {
         if (std::find(pairedLyrics.begin(), pairedLyrics.end(), i.absoluteFilePath()) != pairedLyrics.end()) {
             continue;
         }
+        if (!getShowHiddenFiles() && i.fileName().startsWith('.')) {
+            continue;
+        }
         mEntities.emplace_back(std::make_shared<QFileInfo>(i));
     }
 }
@@ -392,6 +416,17 @@ void FileManager::setHidePairedLyrics(bool val) {
         mCfg["hide_paired_lyrics"] = val;
         WRITE_CFG;
         emit hidePairedLyricsChanged();
+    }
+}
+
+bool FileManager::getShowHiddenFiles() const { return mShowHiddenFiles; }
+
+void FileManager::setShowHiddenFiles(bool val) {
+    if (mShowHiddenFiles != val) {
+        mShowHiddenFiles          = val;
+        mCfg["show_hidden_files"] = val;
+        WRITE_CFG;
+        emit showHiddenFilesChanged();
     }
 }
 
@@ -422,6 +457,22 @@ void FileManager::refreshPlayList() {
             list.emplace_back(file);
         }
     });
+}
+
+void FileManager::executeFile(const QString& fileName) {
+    QString filePath = mCurrentPath.absoluteFilePath(fileName);
+    if (!QFileInfo(filePath).isExecutable()) {
+        emit exception("文件不可执行");
+        return;
+    }
+
+    QProcess* process = new QProcess(this);
+    process->start(filePath);
+    if (!process->waitForStarted()) {
+        emit exception("启动失败");
+        delete process;
+        return;
+    }
 }
 } // namespace mod::filemanager
 

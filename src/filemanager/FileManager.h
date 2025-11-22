@@ -28,6 +28,9 @@ class FileManager : public QAbstractListModel, public Singleton<FileManager>, pr
     // MusicPlayer
     Q_PROPERTY(bool hidePairedLyrics READ getHidePairedLyrics WRITE setHidePairedLyrics NOTIFY hidePairedLyricsChanged);
 
+    // File visibility
+    Q_PROPERTY(bool showHiddenFiles READ getShowHiddenFiles WRITE setShowHiddenFiles NOTIFY showHiddenFilesChanged);
+
 public:
     [[nodiscard]] int rowCount(const QModelIndex& parent) const override;
 
@@ -87,8 +90,14 @@ public:
     [[nodiscard]] bool getHidePairedLyrics() const;
 
     void setHidePairedLyrics(bool);
+    
+    [[nodiscard]] bool getShowHiddenFiles() const;
+
+    void setShowHiddenFiles(bool);
 
     Q_INVOKABLE void playFromView(const QString& fileName);
+
+    Q_INVOKABLE void executeFile(const QString& fileName);
 
 signals:
 
@@ -107,6 +116,8 @@ signals:
     // MusicPlayer
 
     void hidePairedLyricsChanged();
+    
+    void showHiddenFilesChanged();
 
 private:
     friend Singleton<FileManager>;
@@ -114,7 +125,7 @@ private:
 
     // FileManager
 
-    enum class UserRoles { FileName = Qt::UserRole + 1, IsDirectory, SizeString, ExtensionName, ExtensionIcon };
+    enum class UserRoles { FileName = Qt::UserRole + 1, IsDirectory, SizeString, ExtensionName, ExtensionIcon, IsExecutable };
 
     std::string mClassName{"fm"};
     json        mCfg;
@@ -136,6 +147,8 @@ private:
     // MusicPlayer
 
     bool mHidePairedLyrics;
+
+    bool mShowHiddenFiles;
 
     QDir mCurrentPlayingPath;
 
