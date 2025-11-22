@@ -84,6 +84,7 @@ QVariant FileManager::data(const QModelIndex& index, int role) const {
         QString name;
         switch (H(ext.toUtf8())) {
         case H("mp3"):
+        case H("flac"):
             name = "mp3";
             break;
         case H("md"):
