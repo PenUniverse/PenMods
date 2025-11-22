@@ -199,7 +199,7 @@ bool FileManager::canCdUp() const {
     return curLength != rootLength && curLength - 1 != rootLength;
 }
 
-void FileManager::loadMore() { loadMore(ColumnDBLimiter::getInstance().getLimit()); }
+void FileManager::loadMore() { loadMore(1500); }
 
 void FileManager::loadMore(int amount) {
     // Do not use 'isHasMore()' here!
