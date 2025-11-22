@@ -23,6 +23,8 @@ def std_dir(url:str):
     return url
 
 for now, dir_list, file_list in os.walk(path):
+    dir_list[:] = [d for d in dir_list if d != '.git']
+
     now = now[len(path):]
     now = std_dir(now)
     
