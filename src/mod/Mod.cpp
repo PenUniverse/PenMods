@@ -155,6 +155,10 @@ PEN_HOOK(bool, license_verify) { return true; }
 #include "tweaker/TextBookHelper.h"
 #include "tweaker/WordBookTweaks.h"
 
+#include "hitokoto/Backend.h"
+
+#include "chatbot/Backend.h"
+
 using namespace mod;
 
 __attribute__((constructor)) static void BeforeMain() {
@@ -220,6 +224,12 @@ __attribute__((constructor)) static void BeforeMain() {
     INSTANCE(QueryTweaks);
     INSTANCE(TextBookHelper);
     INSTANCE(WordBookTweaks);
+
+    // hitokoto
+    INSTANCE(hitokoto::Hitokoto)
+
+    // chatbot
+    INSTANCE(chatbot::ChatBot)
 
 #undef INSTANCE
 }
